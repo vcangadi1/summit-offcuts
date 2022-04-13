@@ -23,60 +23,81 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="row">
+        <div class="row justify-content-center">
+            {{#if message}}
+                <div class="alert alert-{{color}} d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <strong>{{message}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {{/if}}
             <div class="col">
                 <form action="/" method="post">
-                    <div class="card text-center mt-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Material</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-sm-6">
+                            <div class="card text-center mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Material</h5>
 
-                            <div class="d-grid gap-2 col-3 mx-auto">
-                                <input type="radio" class="btn-check" name="material" id="A" value="A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="A">Aluminium</label>
+                                    <div class="d-grid gap-2 col-3 mx-auto">
+                                        <input type="radio" class="btn-check" name="material" id="A" value="A" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="A">Aluminium</label>
 
-                                <input type="radio" class="btn-check" name="material" id="W" value="W" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="W">Wood</label>
+                                        <input type="radio" class="btn-check" name="material" id="W" value="W" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="W">Wood</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card text-center mt-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Size</h5>
+                    
+                        <div class="col-sm-6">
+                            <div class="card text-center mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Size</h5>
 
-                            <div class="d-grid gap-2 col-3 mx-auto">
-                                <input type="radio" class="btn-check" name="size" id="F" value="F" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="F">Full</label>
+                                    <div class="d-grid gap-2 col-3 mx-auto">
+                                        <input type="radio" class="btn-check" name="size" id="F" value="F" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="F">Full</label>
 
-                                <input type="radio" class="btn-check" name="size" id="H" value="H" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="H">Half</label>
+                                        <input type="radio" class="btn-check" name="size" id="H" value="H" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="H">Half</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card text-center mt-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Task</h5>
-                            <div class="d-grid gap-2 col-3 mx-auto">
-                                <input type="radio" class="btn-check" name="task" id="plus" value='1' autocomplete="off">
-                                <label class="btn btn-outline-primary" for="plus">Return</label>
 
-                                <input type="radio" class="btn-check" name="task" id="minus" value='-1' autocomplete="off">
-                                <label class="btn btn-outline-primary" for="minus">Consume</label>
+                        <div class="col-sm-6">
+                            <div class="card text-center mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Task</h5>
+
+                                    <div class="d-grid gap-2 col-3 mx-auto">
+                                        <input type="radio" class="btn-check" name="task" id="plus" value='plus' autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="plus">Return</label>
+
+                                        <input type="radio" class="btn-check" name="task" id="minus" value='minus' autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="minus">Consume</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card text-center mt-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Quantity</h5>
-                            <div class="d-grid gap-2 col-3 mx-auto">
-                                <input type="number" class="form-control" name="qty" id="qty" value="1" autocomplete="off">
+
+                        <div class="col-sm-6">
+                            <div class="card text-center mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Quantity</h5>
+                                    <div class="d-grid gap-2 col-3 mx-auto">
+                                        <input type="number" class="form-control text-center" min="0" name="qty" id="qty" value="1" autocomplete="off">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card text-center mt-4">
-                        <div class="card-body d-grid gap-2 col-4 mx-auto">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        <div class="card text-center mt-4">
+                            <div class="card-body d-grid gap-2 col-4 mx-auto">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
                         </div>
+                    
                     </div>
                 </form>
             </div>

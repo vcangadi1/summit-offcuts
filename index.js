@@ -22,16 +22,16 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-    const { material, size, qty } = req.body;
+    const { material, size, task, qty } = req.body;
+    console.log(req.body);
 
-    if (material !== undefined && size !== undefined && qty !== undefined) {
-        res.render('index', {
-            material: material,
-            size: size,
-            qty: qty
-        });
+    if (material === undefined || size === undefined || task === undefined || qty === '0') {
+      return res.render('index', {
+          message: 'Please select all entities',
+          color: 'danger'
+      });
     } else {
-        res.render('index');
+      return res.render('index');
     }
 });
 
