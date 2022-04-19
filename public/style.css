@@ -35,3 +35,59 @@ nav li a {
     padding: 5px 8px;
     font-size: medium;
 }
+
+
+
+
+
+.fancy-forms .tab-content{
+    background: #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.3);
+}
+
+.fancy-forms .nav-tabs .nav-item{
+    width: 50%;
+    text-align: center;
+}
+
+.fancy-forms .nav-tabs .nav-link{
+
+    border: 1px solid #e47a4b;
+    background-color: #e47a4b;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: #ffffff;
+    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.3);
+}
+
+.fancy-forms .nav-tabs .nav-link.active{
+    border-color: #fff;
+    color: #e47a4b;
+    background-color: #ffffff;
+}
+
+ .fancy-forms .nav-tabs .nav-link:hover{
+    border-color: #fff;
+ }
+
+ fancy-forms .nav-tabs .nav-link.active:hover{
+    border-color: #e47a4b;
+ }
+
+ .fancyformcontainer{
+    background: #e6c3b4;
+    padding: .5rem 3rem !important;
+    margin: 3rem !important;
+ }
+
+ .formsubmitbtn{
+    background: #e47a4b;
+    color: white; 
+    margin-bottom: 1.5rem !important;
+ }
+
+ .formsubmitbtn:hover,.formsubmitbtn:focus{
+    color: #fff;
+ }
