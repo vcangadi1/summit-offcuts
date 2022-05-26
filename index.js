@@ -35,12 +35,8 @@ app.get('/', async (req, res) => {
   const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
   // Get all the rows
   const rows = await sheet.getRows();
-  let values = [];
-  let text = '';
-  rows.forEach(async (row) => {
-    
-  });
-  res.render('index');
+  // Render the index page
+  res.render('index', {rows});
 });
 
 app.post('/', async (req, res) => {
@@ -59,6 +55,7 @@ app.post('/', async (req, res) => {
   // Check if all entries are valid
   if (Code === 'selected' || size === undefined || task === undefined || qty === '0') {
     return res.render('index', {
+        rows,
         message: 'Please select all entities',
         color: 'danger'
     });
@@ -72,11 +69,12 @@ app.post('/', async (req, res) => {
         if (task === 'consume' && size === 'Full') { item.Full = parseInt(item.Full) - parseInt(qty); }
         if (task === 'consume' && size === 'Half') { item.Half = parseInt(item.Half) - parseInt(qty); }
         await item.save();
-        return res.render('index');
+        return res.render('index', rows);
       }
     });
   } else {
     return res.render('index', {
+      rows,
       message: 'Empty database',
       color: 'danger'
     });
@@ -85,6 +83,7 @@ app.post('/', async (req, res) => {
 
 
 app.get('/stock', async (req, res) => {
+
   // Initialize the spreadsheet
   const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
   // Authenticate with the Google Spreadsheet
@@ -93,23 +92,15 @@ app.get('/stock', async (req, res) => {
   // Get the first sheet
   const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
   // Get all the rows
-  await sheet.loadCells('B2:C3');
+  const rows = await sheet.getRows();
 
-  // const stock = {
-  //   aluminium: {
-  //     full: sheet.getCellByA1('B2').value,
-  //     half: sheet.getCellByA1('C2').value
-  //   },
-  //   wood: {
-  //     full: sheet.getCellByA1('B3').value,
-  //     half: sheet.getCellByA1('C3').value
-  //   }
-  // };
-
-  return res.render('stock');
+  return res.render('stock', {rows});
 });
 
 app.post('/stock/add', async (req, res) => {
+
+  const { Code, size, qty } = req.body;
+
   // Initialize the spreadsheet
   const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
   // Authenticate with the Google Spreadsheet
@@ -118,36 +109,41 @@ app.post('/stock/add', async (req, res) => {
   // Get the first sheet
   const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
   // Get all the rows
-  await sheet.loadCells('B2:C3');
-
-  const { material, qty } = req.body;
-
-  // Add the new stock
-  if (material === 'aluminium') {
-    sheet.getCellByA1('B2').value = parseInt(sheet.getCellByA1('B2').value) + parseInt(qty);
-  } else if (material === 'wood') {
-    sheet.getCellByA1('B3').value = parseInt(sheet.getCellByA1('B3').value) + parseInt(qty);
-  } else {
+  const rows = await sheet.getRows();
+  // Check if all entries are valid
+  if (Code === 'selected' || size === undefined) {
     return res.render('stock', {
-      message: 'Please select a material',
-      color: 'danger'
+        rows,
+        message: 'Please select correct entities and quantity',
+        color: 'danger'
     });
   }
-
-  try {
-    // Save the changes
-    await sheet.saveUpdatedCells();
-  } 
-  catch {}
-  finally {
-    return res.render('stock', {
-      message: `New ${material} stock added`,
-      color: 'success'
-    });
-  }
+    // Find the row with the code
+    if (rows.length) {
+      rows.forEach( async(item) => {
+        if (item.Code === Code) {
+          if (size === 'Full') { item.Full = parseInt(item.Full) + parseInt(qty); }
+          if (size === 'Half') { item.Half = parseInt(item.Half) + parseInt(qty); }
+          await item.save();
+          return res.render('stock', {
+            message: 'Stock Replenished',
+            color: 'success'
+          });
+        }
+      });
+    } else {
+      return res.render('stock', {
+        rows,
+        message: 'Empty database',
+        color: 'danger'
+      });
+    }
 });
 
 app.post('/stock/edit', async (req, res) => {
+
+  const { Code, size, qty } = req.body;
+  console.log(req.body);
   // Initialize the spreadsheet
   const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
   // Authenticate with the Google Spreadsheet
@@ -156,34 +152,36 @@ app.post('/stock/edit', async (req, res) => {
   // Get the first sheet
   const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
   // Get all the rows
-  await sheet.loadCells('B2:C3');
-  
-  const { material, qty } = req.body;
-
-  // Edit the new stock
-  if (material === 'aluminium') {
-    sheet.getCellByA1('B2').value = parseInt(qty);
-  } else if (material === 'wood') {
-    sheet.getCellByA1('B3').value = parseInt(qty);
-  } else {
+  const rows = await sheet.getRows();
+  // Check if all entries are valid
+  if (Code === 'selected' || Code === '' || size === undefined) {
     return res.render('stock', {
-      message: 'Please select a material',
-      color: 'danger'
+        rows,
+        message: 'Please select correct entities and quantity',
+        color: 'danger'
     });
   }
-
-  try {
-    // Save the changes
-    await sheet.saveUpdatedCells();
-  } 
-  catch {}
-  finally {
-    return res.render('stock', {
-      message: `Overwrite: ${material} stock edited`,
-      color: 'danger'
-    });
-  }
-  
+    // Find the row with the code
+    if (rows.length) {
+      rows.forEach( async(item) => {
+        if (item.Code === Code) {
+          if (size === 'Full') { item.Full = parseInt(qty); }
+          if (size === 'Half') { item.Half = parseInt(qty); }
+          await item.save();
+          return res.render('stock', {
+            rows,
+            message: 'Stock Changed',
+            color: 'success'
+          });
+        }
+      });
+    } else {
+      return res.render('stock', {
+        rows,
+        message: 'Empty database',
+        color: 'danger'
+      });
+    }
 });
 
 app.listen(port, ip, () => {
