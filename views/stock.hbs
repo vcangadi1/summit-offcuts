@@ -22,7 +22,14 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-4">
+            <form action="/stock/refresh" method="POST">
+                <div class="d-grid gap-2 col-3 mx-auto">
+                    <button type="submit" class="btn btn-primary">Refresh</button>
+                </div>
+            </form>
+        </div>
+        <div class="row justify-content-center mt-4">
             {{#if message}}
                 <div class="alert alert-{{color}} d-flex align-items-center alert-dismissible fade show" role="alert">
                     <strong>{{message}}</strong>
@@ -32,17 +39,68 @@
             <div class="col mt-2">
                 <div class="card">
                     <div class="card-header">
+                        <h3>New Stock Item</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/stock/new" method="POST">
+                            <div class="form-group mb-3">
+                                <label for="Code">Code</label>
+                                <input type="text" class="form-control" name="Code" id="Code" placeholder="Code">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="Material">Material</label>
+                                <input type="text" class="form-control" name="Material" id="Material" placeholder="Material">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="Price">Price</label>
+                                <input type="number" class="form-control" name="Price" min="0" id="Price" placeholder="Price">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Size</label>
+                                <div class="d-grid gap-2 col-3 mx-auto">
+                                    <input type="radio" class="btn-check" name="size" id="Fulln" value="Full" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Fulln">Full</label>
+
+                                    <input type="radio" class="btn-check" name="size" id="Halfn" value="Half" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Halfn">Half</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="qty">Quantity</label>
+                                <input type="number" class="form-control" name="qty" min="0" id="qty" placeholder="qty">
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">New</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col mt-2">
+                <div class="card">
+                    <div class="card-header">
                         <h3>Add Stock</h3>
                     </div>
                     <div class="card-body">
                         <form action="/stock/add" method="POST">
                             <div class="form-group mb-3">
                                 <label for="name">Material</label>
-                                <select class="form-select" name="material" id="material" placeholder="material">
+                                <select class="form-select" id="Code" name="Code">
                                     <option selected>Select</option>
-                                    <option value="aluminium">Aluminium</option>
-                                    <option value="wood">Wood</option>
+                                    {{#rows}}
+                                        <option value="{{Code}}">{{Material}} ({{Price}})</option>
+                                    {{/rows}}
                                 </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Size</label>
+                                <div class="d-grid gap-2 col-3 mx-auto">
+                                    <input type="radio" class="btn-check" name="size" id="Full" value="Full" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Full">Full</label>
+
+                                    <input type="radio" class="btn-check" name="size" id="Half" value="Half" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Half">Half</label>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="qty">Quantity</label>
@@ -56,17 +114,28 @@
             <div class="col mt-2">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Edit Stock</h3>
+                        <h3>Stock Correction</h3>
                     </div>
                     <div class="card-body">
                         <form action="/stock/edit" method="POST">
                             <div class="form-group mb-3">
                                 <label for="name">Material</label>
-                                <select class="form-select" name="material" id="material" placeholder="material">
+                                <select class="form-select" id="Code" name="Code">
                                     <option selected>Select</option>
-                                    <option value="aluminium">Aluminium</option>
-                                    <option value="wood">Wood</option>
+                                    {{#rows}}
+                                        <option value="{{Code}}">{{Material}} ({{Price}})</option>
+                                    {{/rows}}
                                 </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Size</label>
+                                <div class="d-grid gap-2 col-3 mx-auto">
+                                    <input type="radio" class="btn-check" name="size" id="Fullc" value="Full" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Fullc">Full</label>
+
+                                    <input type="radio" class="btn-check" name="size" id="Halfc" value="Half" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="Halfc">Half</label>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="qty">Quantity</label>

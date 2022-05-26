@@ -36,13 +36,13 @@
                             <div class="card text-center mt-4">
                                 <div class="card-body">
                                     <h5 class="card-title">Material</h5>
-
-                                    <div class="d-grid gap-2 col-3 mx-auto">
-                                        <input type="radio" class="btn-check" name="material" id="aluminium" value="aluminium" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="aluminium">Aluminium</label>
-
-                                        <input type="radio" class="btn-check" name="material" id="wood" value="wood" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="wood">Wood</label>
+                                    <div class="d-grid mx-auto">
+                                        <select class="form-select" id="Code" name="Code">
+                                            <option selected>Select</option>
+                                            {{#rows}}
+                                                <option value="{{Code}}">{{Material}} ({{Price}})</option>
+                                            {{/rows}}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -54,11 +54,11 @@
                                     <h5 class="card-title">Size</h5>
 
                                     <div class="d-grid gap-2 col-3 mx-auto">
-                                        <input type="radio" class="btn-check" name="size" id="full" value="full" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="full">Full</label>
+                                        <input type="radio" class="btn-check" name="size" id="Full" value="Full" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="Full">Full</label>
 
-                                        <input type="radio" class="btn-check" name="size" id="half" value="half" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="half">Half</label>
+                                        <input type="radio" class="btn-check" name="size" id="Half" value="Half" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="Half">Half</label>
                                     </div>
                                 </div>
                             </div>
