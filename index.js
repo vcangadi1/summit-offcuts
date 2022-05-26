@@ -97,6 +97,54 @@ app.get('/stock', async (req, res) => {
   return res.render('stock', {rows});
 });
 
+app.post('/stock/refresh', async (req, res) => {
+    return res.redirect('/stock');
+});
+
+app.post('/stock/new', async (req, res) => {
+  
+  const { Code, Material, Price, size, qty } = req.body;
+
+  // Initialize the spreadsheet
+  const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
+  // Authenticate with the Google Spreadsheet
+  await doc.useServiceAccountAuth(credentials);
+  await doc.loadInfo();
+  // Get the first sheet
+  const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
+  // Get all the rows
+  const rows = await sheet.getRows();
+  // Check if all entries are valid
+  if (Code === '' || Material === '' || Price === undefined || size === undefined || qty === undefined) {
+    return res.render('stock', {
+        rows,
+        message: 'Please select correct entities and quantity',
+        color: 'danger'
+    });
+  }
+  // Append rows
+  try {
+    if (size === 'Full') {
+      await sheet.addRow({Code, Material, Price, Full: qty, Half: 0});
+    } else {
+      await sheet.addRow({Code, Material, Price, Full: 0, Half: qty});
+    }
+  } catch (error) {
+    return res.render('stock', {
+      rows,
+      message: 'Error while adding new row',
+      color: 'danger'
+    });
+  } finally{
+    return res.render('stock', {
+      rows,
+      message: 'New row added',
+      color: 'success'
+    });
+  }
+
+});
+
 app.post('/stock/add', async (req, res) => {
 
   const { Code, size, qty } = req.body;
