@@ -191,7 +191,7 @@ app.post('/stock/add', async (req, res) => {
 app.post('/stock/edit', async (req, res) => {
 
   const { Code, size, qty } = req.body;
-  console.log(req.body);
+  
   // Initialize the spreadsheet
   const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
   // Authenticate with the Google Spreadsheet
