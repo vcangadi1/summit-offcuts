@@ -9,8 +9,8 @@ const app = express();
 
 // Load env variables
 dotenv.config({ path: './.env' });
-const port = 80;
-const ip = '0.0.0.0';
+const port = process.env.port || 8080;
+const ip = process.env.ip || '0.0.0.0';
 
 const publicPath = path.join(__dirname, './public');
 app.use(express.static(publicPath));
@@ -233,5 +233,5 @@ app.post('/stock/edit', async (req, res) => {
 });
 
 app.listen(port, ip, () => {
-  console.log(`listening on http://${ip}:${port}`);
+  console.log(`listening on http://127.0.0.1:${port}`);
 });
